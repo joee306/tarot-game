@@ -1,0 +1,1 @@
+for<'a, 'b, 'c, 'd, 'e> fn(bevy::prelude::Query<'a, 'b, &'c mut bevy::prelude::Handle<bevy::prelude::StandardMaterial>>, {type error}, bevy::prelude::ResMut<'d, bevy::prelude::Assets<bevy::prelude::StandardMaterial>>, bevy::prelude::Res<'e, bevy::prelude::AssetServer>) {animate}

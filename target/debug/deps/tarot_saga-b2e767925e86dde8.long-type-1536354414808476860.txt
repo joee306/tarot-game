@@ -1,0 +1,1 @@
+for<'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h> fn(bevy::prelude::Query<'a, 'b, (&'c mut bevy_rapier3d::dynamics::ExternalImpulse, &'d bevy::prelude::Transform, &'e mut bevy_rapier3d::dynamics::Velocity, &'f {type error}), {type error}>, bevy::prelude::Res<'g, bevy::prelude::Input<bevy::prelude::KeyCode>>, bevy::prelude::Res<'h, bevy::prelude::Time>) {movement}

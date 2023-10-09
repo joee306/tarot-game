@@ -1,0 +1,12 @@
+/home/joe/dev/rust/tarot_saga/target/debug/deps/async_lock-79c69017f9f83e7d.rmeta: /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/lib.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/barrier.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/mutex.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/once_cell.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock/futures.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock/raw.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/semaphore.rs
+
+/home/joe/dev/rust/tarot_saga/target/debug/deps/async_lock-79c69017f9f83e7d.d: /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/lib.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/barrier.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/mutex.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/once_cell.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock/futures.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock/raw.rs /home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/semaphore.rs
+
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/lib.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/barrier.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/mutex.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/once_cell.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock/futures.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/rwlock/raw.rs:
+/home/joe/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lock-2.8.0/src/semaphore.rs:

@@ -1,0 +1,1 @@
+for<'a, 'b, 'c, 'd, 'e, 'f> fn(bevy::prelude::Query<'a, 'b, (&'c mut bevy_rapier3d::dynamics::Velocity, &'d {type error}, &'e mut setup::Controller), {type error}>, bevy::prelude::Res<'f, bevy::prelude::Input<bevy::prelude::KeyCode>>) {movement}

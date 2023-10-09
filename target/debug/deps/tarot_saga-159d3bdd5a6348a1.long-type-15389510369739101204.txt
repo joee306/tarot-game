@@ -1,0 +1,1 @@
+for<'a, 'b, 'c, 'd, 'e> fn(bevy::prelude::Commands<'a, 'b>, bevy::prelude::Res<'c, {type error}>, bevy_sprite3d::Sprite3dParams<'d, 'e>) {setup}

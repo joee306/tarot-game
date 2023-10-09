@@ -1,0 +1,1 @@
+for<'a, 'b, 'c, 'd, 'e> fn(bevy::prelude::Res<'a, bevy::prelude::AssetServer>, bevy::prelude::Res<'b, Assets>, bevy::prelude::Commands<'c, 'd>, bevy::prelude::ResMut<'e, bevy::prelude::NextState<{type error}>>, {type error}) {setup}

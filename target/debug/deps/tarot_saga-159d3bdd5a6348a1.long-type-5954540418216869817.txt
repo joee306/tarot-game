@@ -1,0 +1,1 @@
+for<'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h> fn(bevy::prelude::Res<'a, bevy::prelude::AssetServer>, bevy::prelude::Res<'b, Assets>, bevy::prelude::Commands<'c, 'd>, bevy::prelude::ResMut<'e, bevy::prelude::NextState<GameState>>, bevy_sprite3d::Sprite3dParams<'f, 'g>, bevy::prelude::Res<'h, {type error}>) {setup}
