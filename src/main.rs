@@ -1,7 +1,7 @@
 mod components;
 mod setup;
 
-use components::*;
+use components::{Direction, *};
 use setup::*;
 
 use bevy::{pbr::DirectionalLightShadowMap, prelude::*};
@@ -17,12 +17,19 @@ fn main() {
         .insert_resource(DirectionalLightShadowMap { size: 4096 })
         .add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .add_plugins(RapierDebugRenderPlugin::default())
-        .add_systems(Startup, setup_scene)
-        .add_systems(Startup, setup_player)
-        .add_systems(Update, movement)
-        .add_systems(Update, bind_system)
-        .add_systems(Update, is_falling_system)
-        .add_systems(Update, animate)
+        .add_systems(Startup, (setup_scene, setup_player))
+        .add_systems(
+            Update,
+            (
+                movement,
+                bind_system,
+                is_falling_system,
+                animate,
+                display_events,
+                attack,
+                remove_in_animation,
+            ),
+        )
         .run();
 }
 
@@ -43,26 +50,6 @@ fn setup_scene(
         },
         BinderFollwer(Transform::from_xyz(0.0, 15.0, 0.0)),
     ));
-    let mut spawn = |x, y, z, rb| {
-        commands.spawn((
-            Collider::cuboid(0.7, 0.7, 0.7),
-            PbrBundle {
-                mesh: meshes.add(Mesh::from(shape::Cube { size: 1.4 })),
-                material: materials.add(Color::rgb(0.8, 0.7, 0.6).into()),
-                transform: Transform::from_xyz(x, y, z).with_rotation(Quat::from_rotation_x(0.5)),
-                ..default()
-            },
-            Friction {
-                coefficient: 0.0,
-                combine_rule: CoefficientCombineRule::Min,
-            },
-            rb,
-        ));
-    };
-
-    for i in 0..50 {
-        spawn((i as f32 - 25.0) * 3.0, 1.0, -1.0, RigidBody::Fixed);
-    }
 
     commands.spawn((
         Collider::cuboid(10000.0, 0.0001, 10000.0),
@@ -76,6 +63,13 @@ fn setup_scene(
             combine_rule: CoefficientCombineRule::Max,
         },
     ));
+    commands.spawn((
+        Collider::cylinder(0.1, 2.5),
+        Sensor,
+        //Dialog::new("../story/test.json".into()),
+        ActiveEvents::COLLISION_EVENTS,
+        TransformBundle::from(Transform::from_xyz(10.0, 0.0, 0.0)),
+    ));
 }
 
 fn bind_system(
@@ -87,15 +81,19 @@ fn bind_system(
         let mut new_transform = *binder_transform;
         new_transform.translation += follwer.0.translation;
         new_transform.scale += follwer.0.scale;
+        new_transform.rotation = follwer_transform.rotation;
         *follwer_transform = new_transform;
     }
 }
 
 fn movement(
-    mut query: Query<(&mut Velocity, &IsFalling, &mut Controller)>,
+    mut query: Query<
+        (&mut Velocity, &IsFalling, &mut Controller, &mut Direction),
+        Without<InAnimation>,
+    >,
     keyboard: Res<Input<KeyCode>>,
 ) {
-    for (mut velocity, is_falling, mut controller) in &mut query {
+    for (mut velocity, is_falling, mut controller, mut dir) in &mut query {
         let mut speed = 10.0;
         let mut change = false;
         let mut direction = Vec3::ZERO;
@@ -108,23 +106,66 @@ fn movement(
         if keyboard.pressed(KeyCode::W) && !is_falling.falling {
             direction.z -= 1.0;
             change = true;
+            *dir = Direction::Up;
         }
         if keyboard.pressed(KeyCode::S) && !is_falling.falling {
             direction.z += 1.0;
             change = true;
+            *dir = Direction::Down;
         }
         if keyboard.pressed(KeyCode::A) && !is_falling.falling {
             direction.x -= 1.0;
             change = true;
+            *dir = Direction::Left;
         }
         if keyboard.pressed(KeyCode::D) && !is_falling.falling {
             direction.x += 1.0;
             change = true;
+            *dir = Direction::Right;
         }
         if change {
             velocity.linvel.z = direction.z * speed;
             velocity.linvel.x = direction.x * speed;
             controller.direction = direction;
+        }
+    }
+}
+
+fn attack(
+    mut commands: Commands,
+    query: Query<(Entity, &Transform, &Direction), (With<Controller>, Without<InAnimation>)>,
+    mouse_buttons: Res<Input<MouseButton>>,
+) {
+    for (player, player_transfom, dir) in &query {
+        let mut tf = player_transfom.clone(); // transform from the player
+        match *dir {
+            Direction::Up => tf.translation.z -= 1.2,
+            Direction::Left => tf.translation.x -= 1.2,
+            Direction::Down => tf.translation.z += 1.2,
+            Direction::Right => tf.translation.x += 1.2,
+        };
+        if mouse_buttons.just_released(MouseButton::Left) {
+            commands.spawn((
+                Collider::cuboid(0.5, 1.0, 1.0),
+                Sensor,
+                ActiveEvents::COLLISION_EVENTS,
+                TransformBundle::from(tf),
+            ));
+            commands.entity(player).insert(InAnimation(0.3));
+        }
+    }
+}
+
+fn remove_in_animation(
+    mut commands: Commands,
+    mut query: Query<(Entity, &mut InAnimation)>,
+    time: Res<Time>,
+) {
+    let seconds = time.delta_seconds();
+    for (entity, mut in_animation) in &mut query {
+        in_animation.0 -= seconds;
+        if in_animation.0 <= 0.0 {
+            commands.entity(entity).remove::<InAnimation>();
         }
     }
 }
@@ -137,8 +178,11 @@ fn is_falling_system(mut query: Query<(&mut IsFalling, &Transform)>) {
 }
 
 fn animate(
-    mut query: Query<(&mut Handle<StandardMaterial>, &mut Animator, &mut Transform)>,
-    controllers: Query<&Controller>,
+    mut query: Query<
+        (&mut Handle<StandardMaterial>, &mut Animator, &mut Transform),
+        Without<InAnimation>,
+    >,
+    controllers: Query<&Controller, Without<Camera>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     asset_server: Res<AssetServer>,
 ) {
@@ -157,6 +201,15 @@ fn animate(
             ani.0 += 1;
         } else {
             ani.0 = 0;
+        }
+    }
+}
+
+fn display_events(mut collision_events: EventReader<CollisionEvent>, query: Query<&Dialog>) {
+    for collision_event in collision_events.iter() {
+        println!("Received collision event: {:?}", collision_event);
+        for dialog in &query {
+            println!("{:?}", dialog);
         }
     }
 }

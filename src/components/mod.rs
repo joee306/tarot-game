@@ -1,4 +1,7 @@
+mod dialog;
+
 use bevy::prelude::*;
+pub use dialog::*;
 
 #[derive(Component, Default)]
 pub struct Controller {
@@ -28,3 +31,14 @@ pub struct Binder; // can only inserted once
 
 #[derive(Component)]
 pub struct BinderFollwer(pub Transform); // can only inserted once
+
+#[derive(Component)]
+pub enum Direction {
+    Up,
+    Left,
+    Down,
+    Right,
+}
+
+#[derive(Component)]
+pub struct InAnimation(pub f32); // Stops Movement and Attacks for x seconds

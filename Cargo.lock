@@ -3220,8 +3220,9 @@ dependencies = [
  "bevy",
  "bevy_rapier3d",
  "bevy_sprite3d",
- "parry3d",
  "rand",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
